@@ -1,3 +1,33 @@
+*.bai
+*.bam
+*.bam.bai
+*.dat
+*done.*
+*.DS
+*.DS_Store
+*.fasta
+*.fasta.*  
+*.fasta.amb
+*.fasta.ann
+*.fasta.bwt
+*.fasta.fai
+*.fasta.pac
+*.fasta.sa
+*.fastq*
+*.flagstat
+*.gbk
+*.gff
+*.pdf
+*.RData
+*.Rhistory
+*.sam
+*.sql
+*.sql.*
+*.swp
+
+
+
+#### Python defaults ####
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -33,7 +63,6 @@ var/
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
-
 # Unit test / coverage reports
 htmlcov/
 .tox/
