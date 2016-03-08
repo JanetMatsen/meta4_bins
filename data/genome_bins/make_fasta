@@ -1,0 +1,7 @@
+#!/bin/bash
+
+gunzip *.fsa.gz
+
+cat *.fsa > ../genome_bins.fasta
+
+gzip -v9 *.fsa

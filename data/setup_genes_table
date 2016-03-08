@@ -1,0 +1,11 @@
+#!/bin/bash
+
+source ../analysis/globals.sh
+
+bp_genbank2gff3.pl genome_bins.gbk
+grep GenBank genome_bins.gbk.gff > genome_bins.gff
+
+awk -v create_table=1 -v table=genes_genome_bins -f gb2sql.awk genome_bins.gbk | mysql -h $HOST $DB
+
+awk -v create_table=1 -v table=sequences_genome_bins -f fa2sql.awk genome_bins.fasta | mysql -h $HOST $DB
+
