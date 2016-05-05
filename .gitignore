@@ -1,3 +1,10 @@
+# directories to ignore
+data/deprecated/
+
+._.TemporaryItems
+._.apdisk
+.apdisk
+
 *.bai
 *.bam
 *.bam.bai
