@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Note: only works for dave beck.
+# When Janet tries to access a URL: (https://img.jgi.doe.gov/m/tmp/public/davidbeck/5428/2634166220/2634166220.fsa.gz)
+# You don't have permission to access /m/tmp/public/davidbeck/5428/2634166220/2634166220.fsa.gz on this server.
+
 for file in `cat files.lst`
 do
 	wget $file
