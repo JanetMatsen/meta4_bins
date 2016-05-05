@@ -1,0 +1,7 @@
+#!/bin/bash
+
+gunzip *.gbf.gz
+
+cat *.gbf > ../genome_bins.gbk
+
+gzip -v9 *.gbf
