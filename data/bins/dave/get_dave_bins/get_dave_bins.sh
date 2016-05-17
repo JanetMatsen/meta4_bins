@@ -18,7 +18,7 @@ PATH_TO_BINS="/work/dacb/elvizAnalysis/results/"
 MISSING_BINS=""
 
 # prepare a folder to keep them in
-DEST_DIR='./bins/'
+DEST_DIR='../bins/'
 echo "make directory to store copies of bins: $DEST_DIR"
 mkdir -p $DEST_DIR
 
@@ -28,11 +28,11 @@ do
   BIN_PATH="${PATH_TO_BINS}${BIN}.fna"
   #echo $BIN_PATH""
   #ls -l $BIN_PATH
-  echo "copy $BIN_PATH to $DEST_DIR"
+  # echo "copy $BIN_PATH to $DEST_DIR"
   cp $BIN_PATH $DEST_DIR
   # also copy the genbank file
   GFF_PATH="${BIN_PATH/%.fna/.gff}"
-  echo "also copy over $GFF_PATH"
+  # echo "also copy over $GFF_PATH"
   cp $GFF_PATH to $DEST_DIR
   # if the exit status wasn't zero, store 
   if [ $? -ne 0 ]
