@@ -30,6 +30,10 @@ do
   #ls -l $BIN_PATH
   echo "copy $BIN_PATH to $DEST_DIR"
   cp $BIN_PATH $DEST_DIR
+  # also copy the genbank file
+  GFF_PATH="${BIN_PATH/%.fna/.gff}"
+  echo "also copy over $GFF_PATH"
+  cp $GFF_PATH to $DEST_DIR
   # if the exit status wasn't zero, store 
   if [ $? -ne 0 ]
   then
