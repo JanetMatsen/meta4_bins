@@ -30,17 +30,34 @@ do
   #ls -l $BIN_PATH
   # echo "copy $BIN_PATH to $DEST_DIR"
   cp $BIN_PATH $DEST_DIR
-  # also copy the genbank file
-  GFF_PATH="${BIN_PATH/%.fna/.gff}"
-  # echo "also copy over $GFF_PATH"
-  cp $GFF_PATH to $DEST_DIR
   # if the exit status wasn't zero, store 
   if [ $? -ne 0 ]
   then
-      MISSING_BINS=${MISSING_BINS} ${BIN}
+      MISSING_BINS="${MISSING_BINS} ${BIN}"
+  fi
+
+  # also copy the genbank file
+  GFF_PATH="${BIN_PATH/%.fna/.gff}"
+  # echo "also copy over $GFF_PATH"
+  cp $GFF_PATH $DEST_DIR
+  # if the exit status wasn't zero, store 
+  if [ $? -ne 0 ]
+  then
+      MISSING_BINS="${MISSING_BINS} ${BIN}"
   fi
 done
 
 echo "missing bins:"
 echo $MISSING_BINS
+
+# Check the number of bins retreived: 
+NUM_BINS_MOVED=`ls -l $DEST_DIR | wc -l`
+echo "number of files in ${DEST_DIR}: $NUM_BINS_MOVED"
+
+NUM_BINS_EXPECTED=`wc -l 160510_interesting_bins_dave_made.tsv | cut -d " " -f 1`
+# subtract 1 for the header
+NUM_BINS_EXPECTED=`expr $NUM_BINS_EXPECTED - 1`
+# expect a .fasta file and a .gff file for each. 
+NUM_BINS_EXPECTED=`expr $NUM_BINS_EXPECTED \* 2`
+echo "number of files expected: $NUM_BINS_EXPECTED"
 
