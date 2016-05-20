@@ -5,6 +5,8 @@ data/bins/dave/bins/
 
 # directories to ignore
 data/deprecated/
+d.analysis/
+janalysis/
 
 ._.TemporaryItems
 ._.apdisk
