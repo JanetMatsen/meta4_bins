@@ -1,0 +1,5 @@
+#!/bin/bash
+
+source ../globals.sh
+
+mysql --local-infile -h $HOST $DB < setup_database.sql
