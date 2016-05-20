@@ -26,7 +26,6 @@ mkdir -p $DEST_DIR
 for BIN in $BIN_NAMES
 do 
   BIN_PATH="${PATH_TO_BINS}${BIN}.fna"
-  #echo $BIN_PATH""
   #ls -l $BIN_PATH
   # echo "copy $BIN_PATH to $DEST_DIR"
   cp $BIN_PATH $DEST_DIR
@@ -52,11 +51,12 @@ echo $MISSING_BINS
 
 # Check the number of bins retreived: 
 NUM_BINS_MOVED=`ls -l $DEST_DIR | wc -l`
+# ls -l returns one more line than than the number of files so subtract it:
+NUM_BINS_MOVED=`expr $NUM_BINS_MOVED - 1`
 echo "number of files in ${DEST_DIR}: $NUM_BINS_MOVED"
 
-NUM_BINS_EXPECTED=`wc -l 160510_interesting_bins_dave_made.tsv | cut -d " " -f 1`
 # subtract 1 for the header
-NUM_BINS_EXPECTED=`expr $NUM_BINS_EXPECTED - 1`
+NUM_BINS_EXPECTED=`wc -l 160510_interesting_bins_dave_made.tsv | cut -d " " -f 1`
 # expect a .fasta file and a .gff file for each. 
 NUM_BINS_EXPECTED=`expr $NUM_BINS_EXPECTED \* 2`
 echo "number of files expected: $NUM_BINS_EXPECTED"
