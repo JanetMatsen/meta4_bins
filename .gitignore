@@ -10,6 +10,7 @@ data/deprecated/
 ._.apdisk
 .apdisk
 
+# 2015/6/20: removed *.sql for the job running SQL script. 
 *.bai
 *.bam
 *.bam.bai
@@ -33,7 +34,6 @@ data/deprecated/
 *.RData
 *.Rhistory
 *.sam
-*.sql
 *.sql.*
 *.swp
 
