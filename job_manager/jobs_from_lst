@@ -1,0 +1,22 @@
+#!/bin/bash
+
+source ../globals.sh
+
+samples=`awk '{ print $2 }' jobs.lst | sort | uniq`
+
+for sample in $samples
+do
+	organisms=`grep $sample jobs.lst | awk '{ print $1 }'`
+	for organism in $organisms
+	do
+		bname=`grep $sample bins.tsv | grep $organism | awk '{ print $1 }'`
+		bid=`echo "SELECT id FROM bin WHERE name = '$bname';" | mysql -h $HOST $DB -s`
+		sname=`grep $sample sample_meta_info.tsv | awk '{ printf("%s%s_2", substr("LakWasMeta", 1, 16-length($1)), $1); }'`
+		sid=`echo "SELECT id FROM sample WHERE name = '$sname';" | mysql -h $HOST $DB -s`
+		statid=`echo "SELECT id FROM status WHERE status_text = 'Cataloged';" | mysql -h $HOST $DB -s`
+		echo $sname $sid $bname $bid $statid
+		echo "INSERT INTO job (sample_id, bin_id, status_id) VALUES ($sid, $bid, $statid);" | mysql -h $HOST $DB -s
+	done
+done
+
+echo "SELECT * FROM jobs;" | mysql -h $HOST $DB

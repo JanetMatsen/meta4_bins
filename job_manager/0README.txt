@@ -10,6 +10,7 @@ setup_database:
     Loads bins.tsv, samples.tsv into the apporpriate tables. 
 jobs_from_lst
     Uses a list of jobs (jobs.lst) to populate the job SQL table
+    Also uses sample_meta_info.tsv to match strings like LakWasMeta to IDs like 73_LOW10
 job_setup
     Makes PBS files, and scripts for each of the jobs that need to be run
     e.g. makes samtools(.sh), 

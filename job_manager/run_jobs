@@ -1,0 +1,3 @@
+#!/bin/bash
+
+parallel -a parallel.jobs --max-procs 12

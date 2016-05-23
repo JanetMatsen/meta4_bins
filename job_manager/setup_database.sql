@@ -35,6 +35,7 @@ CREATE TABLE job (
 	FOREIGN KEY (status_id) REFERENCES status(id)
 );
 
+DROP VIEW IF EXISTS jobs;
 CREATE VIEW jobs AS
 	SELECT job.id, 
 			sample.name AS sample_name, sample.fastq_path AS sample_fastq_path, 
@@ -48,5 +49,5 @@ CREATE VIEW jobs AS
 		ORDER BY sample.id
 	;
 
-LOAD DATA LOCAL INFILE 'bins.tsv' INTO TABLE bin FIELDS TERMINATED BY '\t' IGNORE 1 LINES;
-LOAD DATA LOCAL INFILE 'samples.tsv' INTO TABLE sample FIELDS TERMINATED BY '\t' IGNORE 1 LINES;
+LOAD DATA LOCAL INFILE 'bins.tsv' INTO TABLE bin FIELDS TERMINATED BY '\t' IGNORE 1 LINES (name, fasta_path, gff_path);
+LOAD DATA LOCAL INFILE 'samples.tsv' INTO TABLE sample FIELDS TERMINATED BY '\t' IGNORE 1 LINES (name, fastq_path);
