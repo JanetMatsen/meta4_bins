@@ -65,15 +65,13 @@ def copy_genbank_with_new_name(genbank_path):
     new_path = "./bins/" + \
          new_genbank_name(genbank_path) + '.gbf'
     print("copying {} to {}".format(genbank_path, new_path))
-    subprocess.check_call(['mv', genbank_path, new_path])
+    subprocess.check_call(['cp', genbank_path, new_path])
 
 
 def copy_fasta_with_new_name(fasta_path):
     new_path = "./bins/" + new_fasta_name(fasta_path) + '.fsa'
     print("copying {} to {}".format(fasta_path, new_path))
-    subprocess.check_call(['mv', fasta_path, new_path])
-    
-    pass
+    subprocess.check_call(['cp', fasta_path, new_path])
 
 
 def copy_all_files():
