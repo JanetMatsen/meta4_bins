@@ -4,6 +4,7 @@ workspace/
 data/bins/fauzi/bins/
 data/bins/isolate/bins/
 data/bins/dave/bins/
+data/bins/isolate/originals/
 
 # directories to ignore
 data/deprecated/
