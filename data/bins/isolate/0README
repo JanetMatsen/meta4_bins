@@ -1,0 +1,17 @@
+        modified:   get_isolate_genomes.sh                  
+        renamed:    make_gff_from_fna.sh -> scripts/make_gff_from_fna.sh  
+        renamed:    prepare_bins.py -> scripts/prepare_bins.py
+
+Steps:
+- original fasta and genbank files were moved from Hyak into the 
+  orignals directory.  See README in there. 
+- run the shell script get_isolate_genomes.sh 
+    - activates m4_janalysis virtualenv
+    - calls ./scripts/prepare_bins.py
+    - calls ./scripts/make_gff_from_fna.sh
+
+prepare_bins.py loops over the fasta and genbannk files in original and
+copies them to ./bins/ with better names, thanks to the help of SeqIO.
+
+make_gff_from_fna.sh is a mostly-Dave script that makes .gff from genbank
+files using the program readseq.jar
