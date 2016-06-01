@@ -92,5 +92,16 @@ sub_string 2634166238 Opititae Opitutae
     # new name = Methylobacter-98 (UID4274)
     # url = https://gold.jgi.doe.gov/analysis_projects?id=Ga0081657
 sub_string 2634166269 Methylobacte-98r Methylobacter-98
+
+# Correct duplicate name:
+    # IMG Taxon ID = 2634166257
+    # broken string = Acidovora-69x
+    # replacement string = Acidovorax-69
+    # GOLD Analysis Project ID = Ga0081644
+    # Analysis Project Name Prefix = Acidovora-69x (UID4105) 
+    # new name = Acidovorax-69 (UID4105)
+    # url = https://gold.jgi.doe.gov/analysis_projects?id=Ga0081644
+sub_string 2634166257 Acidovora-69x Acidovorax-69 
+
 			
 			
