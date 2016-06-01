@@ -1,4 +1,5 @@
 import glob
+import os
 import re
 import subprocess
 
@@ -66,12 +67,15 @@ def copy_genbank_with_new_name(genbank_path):
          new_genbank_name(genbank_path) + '.gbf'
     print("copying {} to {}".format(genbank_path, new_path))
     subprocess.check_call(['cp', genbank_path, new_path])
+    assert os.path.isfile(new_path) 
 
 
 def copy_fasta_with_new_name(fasta_path):
-    new_path = "./bins/" + new_fasta_name(fasta_path) + '.fsa'
+    # use .fna to be consistent with Dave/Fazui bin suffixes.
+    new_path = "./bins/" + new_fasta_name(fasta_path) + '.fna'
     print("copying {} to {}".format(fasta_path, new_path))
     subprocess.check_call(['cp', fasta_path, new_path])
+    assert os.path.isfile(new_path) 
 
 
 def copy_all_files():

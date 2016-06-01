@@ -2,9 +2,9 @@
 # Original: 
 # /work/meta4_bins/data/bins/fauzi/bins/assemble_files
 
-for file in ./bins/*.fsa
+for file in ./bins/*.fna
 do
-    gbf=`echo $file | sed "s/fsa/gbf/g"`
+    gbf=`echo $file | sed "s/fna/gbf/g"`
     organism=`head -1 $file | awk -F'=' '{ split($2, array, "("); printf("%s", array[1]); }'`
     organism=`echo $organism | sed "s/ /_/g"`
     # We want .fna (to match the bins)
