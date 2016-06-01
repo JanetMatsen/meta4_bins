@@ -1,4 +1,5 @@
 workspace/
+analysis/*.xls
 
 # new directories for 2016/05/17 directory remodeling:
 data/bins/fauzi/bins/
