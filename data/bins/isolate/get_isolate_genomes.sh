@@ -13,6 +13,6 @@ python ./scripts/prepare_bins.py
 
 echo "make .gff for each fasta"
 # Make a .gff file for each fasta:
-./scripts/make_gff_from_fna.sh
+./scripts/make_gff_from_fasta.sh
 
 

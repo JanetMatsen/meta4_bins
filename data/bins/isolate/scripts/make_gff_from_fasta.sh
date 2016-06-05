@@ -2,13 +2,11 @@
 # Original: 
 # /work/meta4_bins/data/bins/fauzi/bins/assemble_files
 
-for file in ./bins/*.fna
+for file in ./bins/*.fasta
 do
-    gbf=`echo $file | sed "s/fna/gbf/g"`
+    gbf=`echo $file | sed "s/fasta/gbf/g"`
     organism=`head -1 $file | awk -F'=' '{ split($2, array, "("); printf("%s", array[1]); }'`
     organism=`echo $organism | sed "s/ /_/g"`
-    # We want .fna (to match the bins)
-    # mv $file "./bins/$organism.fasta"
     mv $gbf "./bins/$organism.genbank"
     java -jar /work/software/readseq/readseq.jar -inform=genbank -format=gff "./bins/$organism.genbank"
     mv "./bins/$organism.genbank.gff" "./bins/$organism.gff"
