@@ -15,13 +15,14 @@ for job in $jobs
 do
 		sample=`awk -vjob=$job -F'\t' '{ if ($1==job) { print $2; exit; } }' $tmp`
 		fastq=`awk -vjob=$job -F'\t' '{ if ($1==job) { print $3; exit; } }' $tmp`
+		genome_name=`awk -vjob=$job -F'\t' '{ if ($1==job) { print $4; exit; } }' $tmp`
 		genome_fasta=`awk -vjob=$job -F'\t' '{ if ($1==job) { print $5; exit; } }' $tmp`
 		gff=`awk -vjob=$job -F'\t' '{ if ($1==job) { print $6; exit; } }' $tmp`
 
 		workspace_dir=`echo $here | awk -F'/' '{ for (i=1; i < NF; ++i) printf("%s/", $i); printf("\n"); }'`workspace
 		dir=$workspace_dir/$job
 
-		echo $sample $fastq $genome_fasta $gff $workspace_dir $dir
+		echo $job $sample $fastq $genome_fasta $gff $workspace_dir $dir
 
 		if [ -d $dir ]
 		then
@@ -32,8 +33,14 @@ do
 		fi
 
 		cd $dir
-		mkdir -p bwa
-		cd bwa
+		cat << EOF > 0README.txt
+Job	$job
+Sample	$sample
+FASTQ	$fastq
+Genome	$genome_name
+Genome FASTA	$genome_fasta
+Genome GFF	$genome_gff
+EOF
 
 		if [ ! -e $genome_fasta.pac ]
 		then
@@ -44,52 +51,53 @@ do
 cat << EOF > aln
 #!/bin/bash
 
-#PBS -N "${sample}_aln"
-#PBS -d $dir/bwa
+#PBS -N "aln_$job"
+#PBS -d $dir
 #PBS -W umask=002
 #PBS -M $EMAIL
 #PBS -m abe
 #PBS -o aln.log
 #PBS -e aln.err
 
-$BWA mem -p -M -t 1 $genome_fasta $fastq > $sample.sam
+$BWA mem -p -M -t 1 $genome_fasta $fastq > $job.sam
 EOF
 chmod +x aln
 
 cat << EOF > samtools
 #!/bin/bash
 
-#PBS -N "${sample}_samtools"
-#PBS -d $dir/bwa
+#PBS -N "samtools_$job"
+#PBS -d $dir
 #PBS -W umask=002
 #PBS -M $EMAIL
 #PBS -m abe
 #PBS -o samtools.log
 #PBS -e samtools.err
 
-$SAMTOOLS view -bt $genome_fasta -o $sample.bam $sample.sam
-$SAMTOOLS sort $sample.bam $sample.sorted
-$SAMTOOLS index $sample.sorted.bam
-$HTSEQ_COUNT -m intersection-nonempty -s no -t CDS -i locus_tag $sample.sam $gff > $sample.summary.dat
-\rm -r $sample.bam
+$SAMTOOLS view -bt $genome_fasta -o $job.bam $job.sam
+\rm -r $job.sam
+$SAMTOOLS sort $job.bam $job.sorted
+\rm -rf $job.bam
+$SAMTOOLS index $job.sorted.bam
+$HTSEQ_COUNT -f bam -m intersection-nonempty -s no -t CDS -i locus_tag $job.sorted.bam $gff > $job.summary.dat
 EOF
 chmod +x samtools
 
 cat << EOF > database.sql
-DROP TABLE IF EXISTS summary_${sample};
-CREATE TABLE summary_${sample} (
-        locus_tag VARCHAR(64) PRIMARY KEY,
+DROP TABLE IF EXISTS summary_$job;
+CREATE TABLE summary_$job (
+    locus_tag VARCHAR(64) PRIMARY KEY,
 	reads_mapped FLOAT,
 	rpkm FLOAT
 );
 
-LOAD DATA LOCAL INFILE "$dir/bwa/$sample.summary.dat" INTO TABLE summary_${sample} FIELDS TERMINATED BY '\t' (locus_tag, reads_mapped);
+LOAD DATA LOCAL INFILE "$dir/$job.summary.dat" INTO TABLE summary_$job FIELDS TERMINATED BY '\t' (locus_tag, reads_mapped);
 EOF
 cat << EOF > database
 #!/bin/bash
 
-#PBS -N "${sample}_database"
-#PBS -d $dir/bwa
+#PBS -N "database_$job"
+#PBS -d $dir
 #PBS -W umask=002
 #PBS -M $EMAIL
 #PBS -m abe
@@ -97,11 +105,11 @@ cat << EOF > database
 #PBS -e database.err
 
 $MYSQL --local-infile -h `$MYSQL_HOST` $DB < database.sql
-\rm -r $sample.sam
+\rm -r $job.sam
 EOF
 chmod +x database
 
-	echo "(cd $dir/bwa; ./aln >& aln.log; ./samtools >& samtools.log; ./database >& database.log)" >> $here/parallel.jobs
+	echo "(cd $dir; ./aln >& aln.log; ./samtools >& samtools.log; ./database >& database.log)" >> $here/parallel.jobs
 
 	cd $here
 done
