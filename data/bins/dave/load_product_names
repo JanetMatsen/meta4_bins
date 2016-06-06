@@ -1,0 +1,23 @@
+#!/bin/bash
+
+source ../../../globals.sh
+
+files=`find /dacb/globus -name '*.faa.product.names' | grep -v Metatranscriptome_`
+
+mysql -h $HOST $DB << EOF
+DROP TABLE IF EXISTS genes;
+CREATE TABLE genes (
+	locus_tag	VARCHAR(128) PRIMARY KEY NOT NULL,
+	product		TEXT,
+	cog	VARCHAR(12),
+	INDEX(cog)
+);
+EOF
+
+for file in $files
+do
+	echo $file
+cat << EOF | mysql --local-infile -h $HOST $DB
+LOAD DATA LOCAL INFILE "$file" INTO TABLE genes FIELDS TERMINATED BY '\t';
+EOF
+done
