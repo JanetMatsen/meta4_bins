@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# to fix up broken JGI (of course, thanks again JGI for not being able to adhere to any f'ing standard in biology file formats) gff files
+
+files=../bins/*.gff
+
+mkdir tmp
+
+for file in $files
+do
+    echo "fix gff for $file"
+	#echo $file
+	awk -F'\t' '{ printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n", $1, $2, $3, $4, $5, $6, ($7 == -1 ? "-" : ($7 == 1 ? "+" : $7)), $8, $9); }' $file > /tmp/temp_gff
+	mv /tmp/temp_gff $file
+done

@@ -37,7 +37,7 @@ do
       echo unable to read file $BIN_PATH
   # check that the file you are about to move doesn't exist at the destination
   else
-    DEST_FILE="${DEST_DIR}${BIN}.fna"
+    DEST_FILE="${DEST_DIR}${BIN}.fasta"
     if [ -e $DEST_FILE ]
     then
         echo "file $DEST_FILE already exists"
@@ -79,4 +79,10 @@ NUM_FILES_EXPECTED=`grep -v Bin 160510_interesting_bins_dave_made.tsv | wc -l`
 # expect a .fasta file and a .gff file for each. 
 NUM_FILES_EXPECTED=`expr $NUM_FILES_EXPECTED \* 2`
 echo "number of files expected: $NUM_FILES_EXPECTED"
+
+# fix gff files
+./scripts/gff_fixer
+
+# rename .fna to fasta
+./scripts/rename_fastas.sh
 
