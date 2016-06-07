@@ -13,7 +13,7 @@ do
 	organism=`echo $organism | sed "s/ /_/g"`
     file_dest=./bins/$organism.fasta
     echo "move $file to $file_dest"
-	mv $file file_dest
+	mv $file $file_dest
     echo "move genbank ($gbf) to ./bins/$organism.genbank"
 	mv $gbf ./bins/$organism.genbank
 	java -jar /work/software/readseq/readseq.jar -inform=genbank -format=gff ./bins/$organism.genbank
