@@ -7,6 +7,10 @@ data/bins/isolate/bins/
 data/bins/dave/bins/
 data/bins/isolate/originals/
 
+# for list of jobs to run with GNU parallel
+job_manager/parallel.jobs
+
+
 # directories to ignore
 data/deprecated/
 d.analysis/
