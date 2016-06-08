@@ -1,17 +1,9 @@
-        modified:   get_isolate_genomes.sh                  
-        renamed:    make_gff_from_fna.sh -> scripts/make_gff_from_fna.sh  
-        renamed:    prepare_bins.py -> scripts/prepare_bins.py
+We originally downloaded the isolate genomes as one file.
+Dave broke them apart usint SQL at /work/dacb/extract_isolates on waffle.
+Copy them over here. 
 
 Steps:
-- original fasta and genbank files were moved from Hyak into the 
-  orignals directory.  See README in there. 
-- run the shell script get_isolate_genomes.sh 
-    - activates m4_janalysis virtualenv
-    - calls ./scripts/prepare_bins.py
-    - calls ./scripts/make_gff_from_fna.sh
-
-prepare_bins.py loops over the fasta and genbannk files in original and
-copies them to ./bins/ with better names, thanks to the help of SeqIO.
-
-make_gff_from_fna.sh is a mostly-Dave script that makes .gff from genbank
-files using the program readseq.jar
+- copy .fasta files from /work/dacb/extract_isolates to ./bins
+- TODO: make individual .genbank files and copy them over. 
+- TODO: make .gff from .genbank
+    - e.g. make_gff_from_fna.sh (a mostly-Dave script that makes .gff from genbank files using the program readseq.jar)
